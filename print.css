@@ -1,0 +1,42 @@
+/* print.css – dùng khi exportPDFPrint() / window.print() */
+
+@media screen {
+    #print-overlay { display: none; }
+}
+
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+    }
+
+    /* Ẩn tất cả trừ overlay in */
+    body > *:not(#print-overlay) {
+        display: none !important;
+    }
+
+    #print-overlay {
+        display: block !important;
+        position: static !important;
+        width: 100% !important;
+    }
+
+    /* docx-preview reset cho bản in */
+    #print-overlay .docx-wrapper {
+        padding: 0 !important;
+        background: white !important;
+    }
+
+    #print-overlay section.docx {
+        width: 100% !important;
+        min-height: unset !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Tránh cắt trang ở giữa phần tử */
+    p, tr, .docx p {
+        page-break-inside: avoid;
+    }
+}

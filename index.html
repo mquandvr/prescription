@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ứng dụng tạo đơn thuốc điện tử - Điền thông tin và xuất file PDF chuyên nghiệp">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.ilovepdf.com http://localhost:3726; img-src 'self' data: blob:; object-src 'none'">
+    <title>Electronic Prescription</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.min.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <!-- Background Decorations -->
+    <div class="bg-decoration">
+        <div class="bg-blob blob-1"></div>
+        <div class="bg-blob blob-2"></div>
+        <div class="bg-blob blob-3"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="app-header" id="app-header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 3h18v18H3z"/>
+                        <path d="M8 12h8"/>
+                        <path d="M12 8v8"/>
+                    </svg>
+                </div>
+                <h1 data-i18n="app.title">Đơn Thuốc Điện Tử</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-ghost" id="btn-fill-sample" onclick="fillSampleData()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                    </svg>
+                    <span data-i18n="btn.fillSample">Điền mẫu</span>
+                </button>
+                <button class="btn btn-ghost" id="btn-history" onclick="openHistory()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <span data-i18n="btn.history">Lịch sử</span>
+                </button>
+                <button class="btn btn-ghost" id="btn-save" onclick="saveDraft()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    <span data-i18n="btn.save">Lưu tạm</span>
+                </button>
+                <button class="btn btn-ghost" id="btn-reset" onclick="resetForm()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                        <path d="M3 3v5h5"/>
+                    </svg>
+                    <span data-i18n="btn.reset">Làm mới</span>
+                </button>
+                <button class="btn btn-primary" id="btn-preview" onclick="togglePreview()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <span data-i18n="btn.preview">Xem trước</span>
+                </button>
+                <button class="btn btn-primary" id="btn-export-docx" onclick="exportDOCX()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    <span data-i18n="btn.exportDocx">Xuất DOCX</span>
+                </button>
+                <button class="btn btn-accent" id="btn-export" onclick="exportPDF()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    <span data-i18n="btn.exportPdf">Xuất PDF</span>
+                </button>
+                <button class="btn btn-ghost btn-lang" id="btn-lang"
+                    onclick="setLanguage(currentLang()==='vi'?'en':'vi')"
+                    title="Switch language / Đổi ngôn ngữ"
+                    aria-label="Toggle language"
+                    style="font-weight:700;min-width:38px;font-size:.78rem;letter-spacing:.05em;padding:4px 10px;border:1.5px solid currentColor;border-radius:6px">VI</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Form Panel -->
+        <div class="form-panel" id="form-panel">
+            <div class="panel-inner">
+                <!-- Patient Info Section -->
+                <section class="form-section" id="section-patient">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <h2 data-i18n="section.patient">Thông tin bệnh nhân</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="hoTen" data-i18n="label.hoTen">Họ và tên</label>
+                            <input type="text" id="hoTen" placeholder="Nhập họ và tên bệnh nhân" data-i18n-ph="ph.hoTen" oninput="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label for="namSinh" data-i18n="label.namSinh">Năm sinh</label>
+                            <input type="text" id="namSinh" placeholder="yyyy hoặc dd/MM/yyyy" data-i18n-ph="ph.namSinh" maxlength="10" inputmode="numeric" oninput="maskBirth(this); updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label for="gioiTinh" data-i18n="label.gioiTinh">Giới tính</label>
+                            <select id="gioiTinh" onchange="updatePreview()">
+                                <option value="" data-i18n="opt.selectGender">-- Chọn --</option>
+                                <option value="Nam" data-i18n="opt.male">Nam</option>
+                                <option value="Nữ" data-i18n="opt.female">Nữ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ngheNghiep" data-i18n="label.ngheNghiep">Nghề nghiệp</label>
+                            <input type="text" id="ngheNghiep" placeholder="Nhập nghề nghiệp" data-i18n-ph="ph.ngheNghiep" oninput="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label for="diaChi" data-i18n="label.diaChi">Địa chỉ</label>
+                            <input type="text" id="diaChi" placeholder="Nhập địa chỉ" data-i18n-ph="ph.diaChi" oninput="updatePreview()">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="chanDoan" data-i18n="label.chanDoan">Chẩn đoán</label>
+                            <textarea id="chanDoan" rows="2" placeholder="Nhập chẩn đoán bệnh" data-i18n-ph="ph.chanDoan" oninput="updatePreview()"></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="diUng" data-i18n="label.diUng">Dị ứng</label>
+                            <input type="text" id="diUng" placeholder="Nhập thông tin dị ứng (nếu có)" data-i18n-ph="ph.diUng" oninput="updatePreview()">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Medication Section -->
+                <section class="form-section" id="section-medication">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/>
+                                <path d="m8.5 8.5 7 7"/>
+                            </svg>
+                        </div>
+                        <h2 data-i18n="section.medication">Thuốc điều trị</h2>
+                    </div>
+                    <div id="medication-list">
+                        <!-- Medications will be generated by JS -->
+                    </div>
+                    <button class="btn btn-add" id="btn-add-med" onclick="addMedication()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 12h8"/>
+                            <path d="M12 8v8"/>
+                        </svg>
+                        <span data-i18n="btn.addMed">Thêm thuốc</span>
+                    </button>
+                </section>
+
+                <!-- Follow-up & Notes Section -->
+                <section class="form-section" id="section-followup">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
+                        <h2 data-i18n="section.followup">Tái khám &amp; Lời dặn</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="taiKhamNgay" data-i18n="label.taiKhamNgay">Hẹn tái khám ngày</label>
+                            <div class="date-picker-wrap">
+                                <input type="text" id="taiKhamNgay" placeholder="dd/MM/yyyy" maxlength="10" inputmode="numeric" autocomplete="off"
+                                    oninput="maskDate(this); syncDatePicker('taiKhamNgay'); updatePreview()">
+                                <input type="date" id="taiKhamNgay-picker" tabindex="-1" aria-hidden="true"
+                                    onchange="syncFromPicker('taiKhamNgay')">
+                                <button type="button" class="date-cal-btn"
+                                    onclick="document.getElementById('taiKhamNgay-picker').showPicker()"
+                                    data-i18n-title="btn.pickDate">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ngayKeDon" data-i18n="label.ngayKeDon">Ngày kê đơn</label>
+                            <div class="date-picker-wrap">
+                                <input type="text" id="ngayKeDon" placeholder="dd/MM/yyyy" maxlength="10" inputmode="numeric" autocomplete="off"
+                                    oninput="maskDate(this); syncDatePicker('ngayKeDon'); updatePreview()">
+                                <input type="date" id="ngayKeDon-picker" tabindex="-1" aria-hidden="true"
+                                    onchange="syncFromPicker('ngayKeDon')">
+                                <button type="button" class="date-cal-btn"
+                                    onclick="document.getElementById('ngayKeDon-picker').showPicker()"
+                                    data-i18n-title="btn.pickDate">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="loiDan" data-i18n="label.loiDan">Lời dặn</label>
+                            <textarea id="loiDan" rows="2" placeholder="Nhập lời dặn cho bệnh nhân" data-i18n-ph="ph.loiDan" oninput="updatePreview()"></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="bacSi" data-i18n="label.bacSi">Bác sĩ kê đơn</label>
+                            <input type="text" id="bacSi" placeholder="Nhập tên bác sĩ" data-i18n-ph="ph.bacSi" oninput="updatePreview()">
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Preview Panel -->
+        <div class="preview-panel" id="preview-panel">
+            <div class="preview-toolbar">
+                <h3 data-i18n="preview.title">Xem trước đơn thuốc</h3>
+                <button class="btn btn-ghost btn-sm" id="btn-close-preview" onclick="togglePreview()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="preview-scroll">
+                <div class="prescription-preview" id="prescription-preview">
+                    <!-- PDF content will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- History Modal -->
+    <div class="modal-overlay" id="history-modal" onclick="if(event.target===this)closeHistory()">
+        <div class="modal-box">
+            <!-- Header: tiêu đề + nút đóng -->
+            <div class="modal-header">
+                <div>
+                    <h2 data-i18n="history.title">Lịch sử đơn thuốc</h2>
+                    <div id="history-storage-src" style="font-size:.72rem;color:#94a3b8;margin-top:2px;max-width:420px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></div>
+                </div>
+                <button class="btn btn-ghost btn-sm" onclick="closeHistory()" aria-label="Close">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <!-- Search bar: cố định, không cuộn -->
+            <div class="modal-search">
+                <input type="text" id="history-search"
+                    placeholder="Tìm theo tên bệnh nhân..."
+                    data-i18n-ph="history.search"
+                    oninput="renderHistory()"
+                    autocomplete="off"
+                    spellcheck="false">
+            </div>
+            <!-- List: chỉ phần này cuộn -->
+            <div class="modal-body" id="history-list"></div>
+            <!-- Footer: export/import -->
+            <div class="modal-footer">
+                <label class="btn btn-ghost btn-sm" data-i18n-title="history.import.tooltip" style="cursor:pointer">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <span data-i18n="history.import">Import JSON</span>
+                    <input type="file" accept=".json" style="display:none" onchange="importHistory(this)">
+                </label>
+                <button class="btn btn-ghost btn-sm" onclick="exportHistory()" data-i18n-title="history.export.tooltip">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span data-i18n="history.export">Export JSON</span>
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Duplicate Save Modal -->
+    <div class="modal-overlay" id="dup-modal">
+        <div class="modal-box" style="max-width:520px">
+            <div class="modal-header" style="border-bottom:1px solid #e2e8f0">
+                <div>
+                    <h2 style="font-size:1rem" data-i18n="dup.title">Trùng tên bệnh nhân</h2>
+                    <div id="dup-subtitle" style="font-size:.82rem;color:#64748b;margin-top:2px"></div>
+                </div>
+            </div>
+            <div class="modal-body" style="padding:16px 20px">
+                <p id="dup-hint" style="font-size:.88rem;color:#475569;margin-bottom:12px"></p>
+                <div id="dup-list" style="display:flex;flex-direction:column;gap:8px;max-height:280px;overflow-y:auto;margin-bottom:16px"></div>
+                <div style="display:flex;gap:10px;justify-content:flex-end">
+                    <button class="btn btn-ghost btn-sm" onclick="closeDupModal()"><span data-i18n="btn.cancel">Huỷ</span></button>
+                    <button class="btn btn-primary btn-sm" onclick="saveDraftNew()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <span data-i18n="btn.createNew">Tạo mới</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon">✓</div>
+        <div class="toast-message" id="toast-message"></div>
+    </div>
+
+    <!-- Vendor + App bundle -->
+    <script src="vendor/jszip.min.js"></script>
+    <script src="template_data.js"></script>
+    <script src="bundle.min.js"></script>
+    </body>
+</html>
