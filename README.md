@@ -1,13 +1,10 @@
-# Đơn Thuốc Điện Tử – Bản Web Tĩnh
+# Đơn Thuốc Điện Tử – Bản Web Tĩnh (100% Offline)
 
-## Dùng ngay
-Mở **index.html** trong Chrome / Edge (không cần server).
+## Dùng ngay trên trình duyệt
+Mở trực tiếp **index.html** trong Chrome / Edge / Firefox / Safari — không cần server, không cần internet, không cần iLovePDF.
 
-## Lịch sử
-Lưu trong localStorage. Dùng **Export JSON** / **Import JSON** trong màn hình Lịch sử.
-
-## Ghi chú
-- Thư mục `vendor/`: jszip (DOCX), docx-preview (Xem trước + In PDF)
-- `template_data.js`: mẫu đơn thuốc (base64)
-- `bundle.min.js`: toàn bộ logic ứng dụng đã minify
-# prescription
+## Tính năng
+- **Xuất PDF vector tức thì (<100ms)**: chạy hoàn toàn trên trình duyệt bằng `pdfmake` + font tiếng Việt `Roboto` (tự động nạp khi bấm Xuất PDF).
+- **Xem trước 1:1 (<1ms)**: hiển thị trang A4 khớp tuyệt đối với file PDF xuất ra.
+- **Tối đa 10 thuốc**, đơn vị liều gõ tự do, chọn nhiều thời điểm uống.
+- **Lịch sử**: lưu trong `localStorage`, hỗ trợ **Xuất JSON** / **Nhập JSON** để sao lưu hoặc chuyển máy.
