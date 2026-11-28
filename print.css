@@ -16,7 +16,8 @@
         background: #ffffff !important;
     }
 
-    body > *:not(#print-overlay) {
+    body > *:not(#print-overlay),
+    #seasonal-decor-layer {
         display: none !important;
     }
 
